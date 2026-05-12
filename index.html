@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Studio Barco | Photographer Zürich</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black: #0a0a0a;
+    --off-white: #f5f2ee;
+    --warm-white: #faf8f5;
+    --gold: #c9a96e;
+    --gold-light: #e8d5b0;
+    --gray: #888880;
+    --dark-gray: #1a1a1a;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--off-white);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  .cursor {
+    position: fixed; width: 10px; height: 10px;
+    background: var(--gold); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform .1s, width .3s, height .3s, background .3s;
+  }
+  .cursor-ring {
+    position: fixed; width: 40px; height: 40px;
+    border: 1px solid rgba(201,169,110,.5); border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform .12s ease-out, width .3s, height .3s;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: background .5s, padding .4s;
+  }
+  nav.scrolled {
+    background: rgba(10,10,10,.92);
+    backdrop-filter: blur(12px);
+    padding: 1.2rem 4rem;
+    border-bottom: 1px solid rgba(201,169,110,.12);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 400; letter-spacing: .25em;
+    color: var(--off-white); text-decoration: none;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 3rem; list-style: none; }
+  .nav-links a {
+    color: var(--gray); text-decoration: none;
+    font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+    transition: color .3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--gold);
+    transition: width .3s ease;
+  }
+  .nav-links a:hover { color: var(--off-white); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--gold); border: 1px solid rgba(201,169,110,.4);
+    padding: .6rem 1.6rem; text-decoration: none;
+    transition: background .3s, color .3s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--black); }
+
+  /* ── HERO ── */
+  #hero {
+    height: 100vh; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-slides { position: absolute; inset: 0; }
+  .hero-slide {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 1.6s ease;
+    transform: scale(1.05);
+    animation: slowZoom 10s ease forwards;
+  }
+  .hero-slide.active { opacity: 1; }
+  @keyframes slowZoom {
+    from { transform: scale(1.05); }
+    to   { transform: scale(1); }
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(10,10,10,.3) 0%, rgba(10,10,10,.6) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2; text-align: center;
+    padding: 2rem;
+  }
+  .hero-eyebrow {
+    font-size: .68rem; letter-spacing: .4em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 2rem;
+    opacity: 0; animation: fadeUp .8s .4s ease forwards;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 300; line-height: .9;
+    letter-spacing: -.01em;
+    opacity: 0; animation: fadeUp 1s .7s ease forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--gold-light); }
+  .hero-sub {
+    font-size: .78rem; letter-spacing: .25em; text-transform: uppercase;
+    color: rgba(245,242,238,.6); margin-top: 2rem;
+    opacity: 0; animation: fadeUp .8s 1s ease forwards;
+  }
+  .hero-cta-group {
+    margin-top: 3.5rem; display: flex; gap: 1.5rem; justify-content: center;
+    opacity: 0; animation: fadeUp .8s 1.3s ease forwards;
+  }
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    padding: 1rem 2.8rem; font-size: .72rem; letter-spacing: .2em;
+    text-transform: uppercase; text-decoration: none;
+    font-weight: 500; transition: background .3s, transform .2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-ghost {
+    border: 1px solid rgba(245,242,238,.3); color: var(--off-white);
+    padding: 1rem 2.8rem; font-size: .72rem; letter-spacing: .2em;
+    text-transform: uppercase; text-decoration: none;
+    transition: border-color .3s, transform .2s;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .8rem;
+    opacity: 0; animation: fadeIn 1s 2s ease forwards;
+  }
+  .hero-scroll span {
+    font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gray);
+  }
+  .scroll-line {
+    width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+  @keyframes scrollPulse {
+    0%,100% { opacity: .3; transform: scaleY(.6); transform-origin: top; }
+    50%      { opacity: 1;  transform: scaleY(1); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+
+  /* ── SLIDE DOTS ── */
+  .slide-dots {
+    position: absolute; right: 3rem; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 1rem; z-index: 3;
+  }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.3);
+    cursor: none; transition: background .3s, transform .3s;
+  }
+  .dot.active { background: var(--gold); transform: scale(1.4); }
+
+  /* ── SECTION COMMON ── */
+  section { position: relative; }
+  .section-label {
+    font-size: .62rem; letter-spacing: .4em; text-transform: uppercase; color: var(--gold);
+    display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem;
+  }
+  .section-label::before { content: ''; width: 40px; height: 1px; background: var(--gold); }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity .9s ease, transform .9s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── ABOUT ── */
+  #about {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+  .about-image {
+    position: relative; overflow: hidden;
+  }
+  .about-image img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .8s ease;
+  }
+  .about-image:hover img { transform: scale(1.04); }
+  .about-text {
+    background: var(--dark-gray);
+    padding: 8rem 6rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .about-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 300; line-height: 1.15; margin-bottom: 2.5rem;
+  }
+  .about-title em { font-style: italic; color: var(--gold-light); }
+  .about-body {
+    color: var(--gray); line-height: 1.9; font-size: .88rem;
+    margin-bottom: 3rem;
+  }
+  .stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 3rem;
+  }
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; font-weight: 300; color: var(--gold);
+  }
+  .stat-label {
+    font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gray);
+    margin-top: .3rem;
+  }
+
+  /* ── SERVICES ── */
+  #services {
+    padding: 9rem 4rem;
+    background: var(--black);
+  }
+  .services-header { text-align: center; margin-bottom: 6rem; }
+  .services-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 300;
+  }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  }
+  .service-card {
+    position: relative; overflow: hidden; aspect-ratio: 3/4;
+    cursor: none;
+  }
+  .service-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .7s ease;
+    filter: brightness(.5);
+  }
+  .service-card:hover img { transform: scale(1.07); filter: brightness(.35); }
+  .service-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 2.5rem 2rem;
+    background: linear-gradient(to top, rgba(10,10,10,.9) 0%, transparent 100%);
+    transform: translateY(30px); transition: transform .5s ease;
+  }
+  .service-card:hover .service-info { transform: translateY(0); }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 300; margin-bottom: .5rem;
+  }
+  .service-desc {
+    font-size: .75rem; color: var(--gray); letter-spacing: .05em; line-height: 1.6;
+    max-height: 0; overflow: hidden; transition: max-height .5s ease;
+  }
+  .service-card:hover .service-desc { max-height: 100px; }
+  .service-arrow {
+    position: absolute; top: 2rem; right: 2rem;
+    width: 40px; height: 40px; border: 1px solid rgba(201,169,110,.4);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 1.2rem;
+    opacity: 0; transform: scale(.8);
+    transition: opacity .3s, transform .3s;
+  }
+  .service-card:hover .service-arrow { opacity: 1; transform: scale(1); }
+
+  /* ── PORTFOLIO STRIP ── */
+  #portfolio {
+    padding: 9rem 0;
+    background: var(--dark-gray);
+  }
+  .portfolio-header {
+    padding: 0 4rem; margin-bottom: 5rem;
+    display: flex; align-items: flex-end; justify-content: space-between;
+  }
+  .portfolio-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 300;
+  }
+  .portfolio-scroll-hint {
+    font-size: .68rem; letter-spacing: .2em; color: var(--gray); text-transform: uppercase;
+  }
+  .portfolio-track {
+    display: flex; gap: 2px; overflow-x: auto; padding: 0 4rem;
+    scrollbar-width: none;
+  }
+  .portfolio-track::-webkit-scrollbar { display: none; }
+  .portfolio-item {
+    flex: 0 0 380px; height: 520px; overflow: hidden; position: relative; cursor: none;
+  }
+  .portfolio-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .7s ease, filter .4s;
+    filter: brightness(.8);
+  }
+  .portfolio-item:hover img { transform: scale(1.06); filter: brightness(.6); }
+  .portfolio-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 1.8rem; font-size: .72rem; letter-spacing: .12em;
+    text-transform: uppercase; color: rgba(245,242,238,.7);
+    opacity: 0; transition: opacity .4s;
+    background: linear-gradient(to top, rgba(0,0,0,.6), transparent);
+  }
+  .portfolio-item:hover .portfolio-caption { opacity: 1; }
+
+  /* ── MARQUEE ── */
+  .marquee-section {
+    padding: 3rem 0; overflow: hidden;
+    background: var(--gold); border-top: 1px solid rgba(0,0,0,.1);
+  }
+  .marquee-track {
+    display: flex; gap: 4rem; white-space: nowrap;
+    animation: marquee 20s linear infinite;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee-item {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-style: italic; color: var(--black);
+    flex-shrink: 0;
+  }
+  .marquee-dot { color: rgba(0,0,0,.3); }
+
+  /* ── PROCESS ── */
+  #process {
+    padding: 9rem 4rem;
+    background: var(--black);
+  }
+  .process-header { text-align: center; margin-bottom: 7rem; }
+  .process-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 300;
+  }
+  .process-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 3rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .process-step { text-align: center; }
+  .step-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem; font-weight: 300; color: rgba(201,169,110,.15);
+    line-height: 1; margin-bottom: 1.5rem;
+  }
+  .step-icon {
+    width: 50px; height: 50px; border: 1px solid rgba(201,169,110,.3);
+    border-radius: 50%; margin: 0 auto 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 1.3rem;
+  }
+  .step-name {
+    font-size: .8rem; letter-spacing: .2em; text-transform: uppercase;
+    margin-bottom: 1rem; color: var(--gold-light);
+  }
+  .step-desc { font-size: .82rem; color: var(--gray); line-height: 1.8; }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials {
+    padding: 9rem 4rem;
+    background: var(--dark-gray);
+    overflow: hidden;
+  }
+  .testimonials-header { text-align: center; margin-bottom: 6rem; }
+  .testimonials-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 300;
+  }
+  .testimonials-track {
+    display: flex; gap: 3rem;
+    transition: transform .8s cubic-bezier(.25,.46,.45,.94);
+  }
+  .testimonial-card {
+    flex: 0 0 calc(33.333% - 2rem);
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.06);
+    padding: 3.5rem;
+  }
+  .quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem; color: var(--gold); line-height: .5;
+    margin-bottom: 2rem; opacity: .4;
+  }
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem; font-style: italic;
+    line-height: 1.7; color: var(--off-white);
+    margin-bottom: 2rem;
+  }
+  .testimonial-author {
+    font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold);
+  }
+  .testimonial-role { color: var(--gray); margin-top: .3rem; font-size: .7rem; }
+  .testimonials-nav {
+    display: flex; justify-content: center; gap: 1rem; margin-top: 4rem;
+  }
+  .t-btn {
+    width: 44px; height: 44px; border: 1px solid rgba(201,169,110,.3);
+    background: none; color: var(--gold); cursor: none;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; transition: background .3s;
+  }
+  .t-btn:hover { background: var(--gold); color: var(--black); }
+
+  /* ── FINE ART / PRINTS ── */
+  #prints {
+    min-height: 70vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .prints-text {
+    background: var(--off-white); color: var(--black);
+    padding: 8rem 6rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .prints-label {
+    font-size: .62rem; letter-spacing: .4em; text-transform: uppercase; color: var(--gold);
+    display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem;
+  }
+  .prints-label::before { content: ''; width: 40px; height: 1px; background: var(--gold); }
+  .prints-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3.5rem); font-weight: 300;
+    line-height: 1.2; color: var(--black); margin-bottom: 2rem;
+  }
+  .prints-body { color: #666; line-height: 1.9; font-size: .88rem; margin-bottom: 2.5rem; }
+  .btn-dark {
+    background: var(--black); color: var(--off-white);
+    padding: 1rem 2.5rem; font-size: .72rem; letter-spacing: .2em;
+    text-transform: uppercase; text-decoration: none;
+    display: inline-block;
+    transition: background .3s;
+  }
+  .btn-dark:hover { background: #333; }
+  .prints-image { overflow: hidden; }
+  .prints-image img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ── CONTACT ── */
+  #contact {
+    padding: 10rem 4rem;
+    background: var(--black);
+    text-align: center;
+  }
+  .contact-pre {
+    font-size: .68rem; letter-spacing: .4em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 2rem;
+  }
+  .contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 7vw, 7rem); font-weight: 300;
+    line-height: .9; margin-bottom: 3rem;
+  }
+  .contact-title em { font-style: italic; color: var(--gold-light); }
+  .contact-body {
+    color: var(--gray); font-size: .88rem; line-height: 1.9;
+    max-width: 560px; margin: 0 auto 4rem;
+  }
+  .contact-links {
+    display: flex; justify-content: center; gap: 3rem; margin-bottom: 5rem;
+    flex-wrap: wrap;
+  }
+  .contact-link {
+    display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    text-decoration: none; color: var(--off-white);
+    transition: color .3s;
+  }
+  .contact-link:hover { color: var(--gold); }
+  .contact-link-icon {
+    width: 52px; height: 52px; border: 1px solid rgba(201,169,110,.2);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; color: var(--gold);
+    transition: background .3s, border-color .3s;
+    margin-bottom: .5rem;
+  }
+  .contact-link:hover .contact-link-icon { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  .contact-link-label {
+    font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+  }
+  .contact-link-value { font-size: .82rem; color: var(--gray); }
+  .contact-cta {
+    background: var(--gold); color: var(--black);
+    padding: 1.3rem 4rem; font-size: .78rem; letter-spacing: .22em;
+    text-transform: uppercase; text-decoration: none; font-weight: 500;
+    transition: background .3s, transform .2s; display: inline-block;
+  }
+  .contact-cta:hover { background: var(--gold-light); transform: translateY(-3px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark-gray);
+    padding: 4rem; border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem;
+  }
+  .footer-brand .nav-logo { display: block; margin-bottom: 1.5rem; }
+  .footer-brand p { color: var(--gray); font-size: .8rem; line-height: 1.8; }
+  .footer-col-title {
+    font-size: .65rem; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: .8rem; }
+  .footer-links a {
+    color: var(--gray); text-decoration: none; font-size: .8rem;
+    transition: color .3s;
+  }
+  .footer-links a:hover { color: var(--off-white); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,.06);
+    margin-top: 3rem; padding-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { color: var(--gray); font-size: .72rem; }
+  .social-links { display: flex; gap: 1.2rem; }
+  .social-link {
+    width: 36px; height: 36px; border: 1px solid rgba(255,255,255,.1);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gray); font-size: .9rem; text-decoration: none;
+    transition: border-color .3s, color .3s;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── FULLSCREEN IMAGE VIEWER ── */
+  .lightbox {
+    position: fixed; inset: 0; background: rgba(0,0,0,.95);
+    z-index: 9000; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity .4s;
+  }
+  .lightbox.open { opacity: 1; pointer-events: all; }
+  .lightbox img {
+    max-width: 90vw; max-height: 90vh; object-fit: contain;
+    transform: scale(.95); transition: transform .4s;
+  }
+  .lightbox.open img { transform: scale(1); }
+  .lightbox-close {
+    position: absolute; top: 2rem; right: 2rem;
+    color: var(--gray); font-size: 2rem; cursor: none;
+    background: none; border: none; transition: color .3s;
+  }
+  .lightbox-close:hover { color: var(--gold); }
+
+  /* ── LOADING SCREEN ── */
+  #loader {
+    position: fixed; inset: 0; background: var(--black);
+    z-index: 99999; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    transition: opacity .8s ease, visibility .8s;
+  }
+  #loader.gone { opacity: 0; visibility: hidden; }
+  .loader-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; letter-spacing: .4em; text-transform: uppercase;
+    color: var(--off-white); margin-bottom: 2rem;
+    animation: pulse 1.5s infinite alternate;
+  }
+  @keyframes pulse { from { opacity: .3; } to { opacity: 1; } }
+  .loader-bar-bg {
+    width: 200px; height: 1px; background: rgba(255,255,255,.1);
+    position: relative; overflow: hidden;
+  }
+  .loader-bar {
+    position: absolute; left: 0; top: 0; height: 100%;
+    background: var(--gold); animation: load 1.8s ease forwards;
+  }
+  @keyframes load { from { width: 0; } to { width: 100%; } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    #about { grid-template-columns: 1fr; }
+    .about-image { height: 50vh; }
+    .about-text { padding: 5rem 3rem; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    #prints { grid-template-columns: 1fr; }
+    .prints-image { height: 50vh; }
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    nav { padding: 1.5rem 2rem; }
+    nav.scrolled { padding: 1rem 2rem; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 768px) {
+    #services { padding: 6rem 1.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    #portfolio { padding: 6rem 0; }
+    .portfolio-header { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 0 1.5rem; }
+    .portfolio-track { padding: 0 1.5rem; }
+    .portfolio-item { flex: 0 0 280px; height: 380px; }
+    .testimonial-card { flex: 0 0 85vw; }
+    #contact { padding: 7rem 1.5rem; }
+    .contact-links { gap: 2rem; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">Studio Barco</div>
+  <div class="loader-bar-bg"><div class="loader-bar"></div></div>
+</div>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Studio Barco</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#prints">Fine Art</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://wa.me/41783035848" class="nav-cta">Book a Shoot</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active" style="background-image:url('https://static.wixstatic.com/media/04cb33_d5f43a64dfd249ccb753cf1e969ede53~mv2.jpg/v1/fill/w_1920,h_1080,al_c,q_90/04cb33_d5f43a64dfd249ccb753cf1e969ede53~mv2.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('https://static.wixstatic.com/media/04cb33_be0a9e540346455888697f5d8cd453e3~mv2.jpg/v1/fill/w_1920,h_1080,al_c,q_90/04cb33_be0a9e540346455888697f5d8cd453e3~mv2.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('https://static.wixstatic.com/media/04cb33_9d1aefa1ab9044e1a8b4d044cb0044e1~mv2.jpg/v1/fill/w_1920,h_1080,al_c,q_90/04cb33_9d1aefa1ab9044e1a8b4d044cb0044e1~mv2.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('https://static.wixstatic.com/media/04cb33_d0ce119153634252bddf7b11e52e9b31~mv2.jpg/v1/fill/w_1920,h_1080,al_c,q_90/04cb33_d0ce119153634252bddf7b11e52e9b31~mv2.jpg')"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Zürich · Madrid · Bogotá</p>
+    <h1 class="hero-title">Studio<br><em>Barco</em></h1>
+    <p class="hero-sub">High-End Fashion · Editorial · Commercial Photography</p>
+    <div class="hero-cta-group">
+      <a href="#portfolio" class="btn-primary">View Portfolio</a>
+      <a href="#contact" class="btn-ghost">Start a Project</a>
+    </div>
+  </div>
+  <div class="slide-dots" id="slideDots">
+    <div class="dot active" data-index="0"></div>
+    <div class="dot" data-index="1"></div>
+    <div class="dot" data-index="2"></div>
+    <div class="dot" data-index="3"></div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marqueeTrack">
+    <span class="marquee-item">Fashion Photography</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Editorial</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Commercial</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Fine Art Prints</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Automotive</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Architecture</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Product Photography</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Fashion Photography</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Editorial</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Commercial</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Fine Art Prints</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Automotive</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Architecture</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Product Photography</span>
+    <span class="marquee-item marquee-dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-image reveal">
+    <img src="https://static.wixstatic.com/media/04cb33_d7cab39d84a04163a2f373c28a337d84~mv2.jpg/v1/fill/w_1200,h_1600,al_c,q_90/04cb33_d7cab39d84a04163a2f373c28a337d84~mv2.jpg"
+         alt="Santiago Barco — Studio Barco Photographer Zürich"/>
+  </div>
+  <div class="about-text">
+    <div class="section-label reveal">The Studio</div>
+    <h2 class="about-title reveal">Crafting Visual<br><em>Narratives</em> That<br>Define Identity</h2>
+    <p class="about-body reveal">
+      Based in Zürich and working worldwide, Studio Barco is a creative hub dedicated to high-end fashion, editorial, and commercial photography. Led by Santiago Barco Rivière, our studio merges technical precision with an authentic, real-life aesthetic to produce result-driven imagery designed for true impact.
+      <br><br>
+      We partner with international luxury brands, institutions, and visionary creatives to craft images that don't just communicate — they resonate, endure, and sell.
+    </p>
+    <div class="stats reveal">
+      <div>
+        <div class="stat-number">4.9★</div>
+        <div class="stat-label">Google Rating</div>
+      </div>
+      <div>
+        <div class="stat-number">69+</div>
+        <div class="stat-label">Verified Reviews</div>
+      </div>
+      <div>
+        <div class="stat-number">3</div>
+        <div class="stat-label">Cities Worldwide</div>
+      </div>
+      <div>
+        <div class="stat-number">∞</div>
+        <div class="stat-label">Creative Vision</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div class="section-label reveal" style="justify-content:center">What We Do</div>
+    <h2 class="services-title reveal">Our <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-light)">Services</em></h2>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="https://static.wixstatic.com/media/04cb33_be0a9e540346455888697f5d8cd453e3~mv2.jpg/v1/fill/w_800,h_1100,al_c,q_90/04cb33_be0a9e540346455888697f5d8cd453e3~mv2.jpg" alt="Fashion Photography"/>
+      <div class="service-info">
+        <div class="service-name">Fashion & Editorial</div>
+        <div class="service-desc">High-end fashion campaigns, lookbooks, and editorial spreads for luxury brands and magazines.</div>
+      </div>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="https://static.wixstatic.com/media/04cb33_d5f43a64dfd249ccb753cf1e969ede53~mv2.jpg/v1/fill/w_800,h_1100,al_c,q_90/04cb33_d5f43a64dfd249ccb753cf1e969ede53~mv2.jpg" alt="Commercial Photography"/>
+      <div class="service-info">
+        <div class="service-name">Commercial & Brand</div>
+        <div class="service-desc">Strategic brand imagery, product photography, and campaign concepts that drive conversion.</div>
+      </div>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="https://static.wixstatic.com/media/04cb33_9d1aefa1ab9044e1a8b4d044cb0044e1~mv2.jpg/v1/fill/w_800,h_1100,al_c,q_90/04cb33_9d1aefa1ab9044e1a8b4d044cb0044e1~mv2.jpg" alt="Fine Art Prints"/>
+      <div class="service-info">
+        <div class="service-name">Fine Art & Travel</div>
+        <div class="service-desc">Collectible art print series and cinematic travel photography for hotels, galleries, and collectors.</div>
+      </div>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="https://static.wixstatic.com/media/04cb33_d0ce119153634252bddf7b11e52e9b31~mv2.jpg/v1/fill/w_800,h_1100,al_c,q_90/04cb33_d0ce119153634252bddf7b11e52e9b31~mv2.jpg" alt="Automotive Photography"/>
+      <div class="service-info">
+        <div class="service-name">Automotive</div>
+        <div class="service-desc">Precision automotive photography that captures speed, craftsmanship, and desire.</div>
+      </div>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="https://static.wixstatic.com/media/04cb33_bc51ab525517457abc8b964f937b120c~mv2.jpg/v1/fill/w_800,h_1100,al_c,q_90/04cb33_bc51ab525517457abc8b964f937b120c~mv2.jpg" alt="Architecture Photography"/>
+      <div class="service-info">
+        <div class="service-name">Architecture & Interiors</div>
+        <div class="service-desc">Architectural photography that communicates space, light, and design intention.</div>
+      </div>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card" style="background:var(--dark-gray);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;padding:3rem;cursor:none;" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;color:var(--gold-light);text-align:center">Custom Framing · Photo Campaigns · Wall Art</div>
+      <div style="font-size:.75rem;color:var(--gray);text-align:center;line-height:1.7">Have a unique brief? We build bespoke photography solutions tailored to your brand's vision.</div>
+      <a href="https://wa.me/41783035848" class="btn-primary" style="margin-top:1rem">Discuss Your Project</a>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-header">
+    <div>
+      <div class="section-label reveal">Selected Works</div>
+      <h2 class="portfolio-title reveal">Portfolio</h2>
+    </div>
+    <span class="portfolio-scroll-hint reveal">← Scroll to explore →</span>
+  </div>
+  <div class="portfolio-track" id="portfolioTrack">
+    <div class="portfolio-item" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="https://static.wixstatic.com/media/04cb33_be0a9e540346455888697f5d8cd453e3~mv2.jpg/v1/fill/w_760,h_1040,al_c,q_90/04cb33_be0a9e540346455888697f5d8cd453e3~mv2.jpg" alt="Fashion B&W"/>
+      <div class="portfolio-caption">Fashion Editorial · Zürich</div>
+    </div>
+    <div class="portfolio-item" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="https://static.wixstatic.com/media/04cb33_d5f43a64dfd249ccb753cf1e969ede53~mv2.jpg/v1/fill/w_760,h_1040,al_c,q_90/04cb33_d5f43a64dfd249ccb753cf1e969ede53~mv2.jpg" alt="Fine Art Water"/>
+      <div class="portfolio-caption">Fine Art · Water Series</div>
+    </div>
+    <div class="portfolio-item" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="https://static.wixstatic.com/media/04cb33_9d1aefa1ab9044e1a8b4d044cb0044e1~mv2.jpg/v1/fill/w_760,h_1040,al_c,q_90/04cb33_9d1aefa1ab9044e1a8b4d044cb0044e1~mv2.jpg" alt="Travel Photography"/>
+      <div class="portfolio-caption">Travellers Series · Aerial</div>
+    </div>
+    <div class="portfolio-item" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="https://static.wixstatic.com/media/04cb33_d0ce119153634252bddf7b11e52e9b31~mv2.jpg/v1/fill/w_760,h_1040,al_c,q_90/04cb33_d0ce119153634252bddf7b11e52e9b31~mv2.jpg" alt="Rainy Highway"/>
+      <div class="portfolio-caption">Travellers · Mountain Highway</div>
+    </div>
+    <div class="portfolio-item" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="https://static.wixstatic.com/media/04cb33_bc51ab525517457abc8b964f937b120c~mv2.jpg/v1/fill/w_760,h_1040,al_c,q_90/04cb33_bc51ab525517457abc8b964f937b120c~mv2.jpg" alt="Aviation Detail"/>
+      <div class="portfolio-caption">Aviation Detail · Abstract</div>
+    </div>
+    <div class="portfolio-item" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="https://static.wixstatic.com/media/04cb33_d7cab39d84a04163a2f373c28a337d84~mv2.jpg/v1/fill/w_760,h_1040,al_c,q_90/04cb33_d7cab39d84a04163a2f373c28a337d84~mv2.jpg" alt="Studio Portrait"/>
+      <div class="portfolio-caption">Studio Portrait · Commercial</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="process-header">
+    <div class="section-label reveal" style="justify-content:center">How We Work</div>
+    <h2 class="process-title reveal">The <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-light)">Process</em></h2>
+  </div>
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <div class="step-number">01</div>
+      <div class="step-icon">✦</div>
+      <div class="step-name">Discovery</div>
+      <div class="step-desc">We begin with an in-depth consultation to understand your brand, goals, and creative vision. No brief is too ambitious.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-number">02</div>
+      <div class="step-icon">◈</div>
+      <div class="step-name">Concept</div>
+      <div class="step-desc">Our team develops a tailored visual concept — moodboards, shot lists, location scouting, and casting, all aligned to your aesthetic.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-number">03</div>
+      <div class="step-icon">◉</div>
+      <div class="step-name">Production</div>
+      <div class="step-desc">Precision on set. We orchestrate lighting, direction, and composition to capture imagery that exceeds expectations.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-number">04</div>
+      <div class="step-icon">◐</div>
+      <div class="step-name">Delivery</div>
+      <div class="step-desc">Meticulous post-production and curated final delivery. Your images, refined to perfection and ready to perform.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testimonials-header">
+    <div class="section-label reveal" style="justify-content:center">Client Words</div>
+    <h2 class="testimonials-title reveal"><em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-light)">What They</em> Say</h2>
+  </div>
+  <div style="overflow:hidden">
+    <div class="testimonials-track" id="testimonialTrack">
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">Santiago captured exactly the mood we needed — cinematic, precise, and deeply evocative. The results elevated our entire campaign.</p>
+        <div class="testimonial-author">Maria L.</div>
+        <div class="testimonial-role">Creative Director, Luxury Brand · Zürich</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">The Travellers series we commissioned for our hotel lobby transformed the space entirely. Every guest asks about the photography. Exceptional work.</p>
+        <div class="testimonial-author">Thomas K.</div>
+        <div class="testimonial-role">General Manager, Boutique Hotel · Geneva</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">Working with Studio Barco was effortless from concept to delivery. Professional, visionary, and with an eye for detail that few photographers possess.</p>
+        <div class="testimonial-author">Ana R.</div>
+        <div class="testimonial-role">Marketing VP, International Retailer · Madrid</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">Our product images saw a significant boost in conversion after our Studio Barco shoot. The quality speaks for itself — worth every franc.</p>
+        <div class="testimonial-author">Lukas B.</div>
+        <div class="testimonial-role">Founder, Swiss Watch Brand · Basel</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">Santiago's ability to blend technical skill with genuine artistic intuition sets Studio Barco apart. A creative partner I recommend without hesitation.</p>
+        <div class="testimonial-author">Céline M.</div>
+        <div class="testimonial-role">Fashion Editor, European Magazine · Paris</div>
+      </div>
+    </div>
+  </div>
+  <div class="testimonials-nav">
+    <button class="t-btn" id="tPrev">←</button>
+    <button class="t-btn" id="tNext">→</button>
+  </div>
+</section>
+
+<!-- FINE ART PRINTS -->
+<section id="prints">
+  <div class="prints-text">
+    <div class="prints-label reveal">Fine Art & Collectibles</div>
+    <h2 class="prints-title reveal">The Travellers<br>Print Collection</h2>
+    <p class="prints-body reveal">
+      An exclusive photography series blending artistic integrity with commercial appeal — presented as cohesive, collectible art prints. From raw urban textures to tranquil aerial perspectives, the Travellers collection is perfect for contemporary hotels, curated corporate offices, high-end restaurants, and private collections.
+      <br><br>
+      We work closely with interior designers and collectors to select existing series or develop bespoke photography collections that align perfectly with a space's narrative.
+    </p>
+    <a href="https://wa.me/41783035848" class="btn-dark reveal">Enquire About Prints</a>
+  </div>
+  <div class="prints-image reveal">
+    <img src="https://static.wixstatic.com/media/04cb33_9d1aefa1ab9044e1a8b4d044cb0044e1~mv2.jpg/v1/fill/w_1400,h_1800,al_c,q_90/04cb33_9d1aefa1ab9044e1a8b4d044cb0044e1~mv2.jpg"
+         alt="Fine Art Travellers Series — Studio Barco"/>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="contact-pre reveal">Let's Create Together</p>
+  <h2 class="contact-title reveal">Start Your Next<br><em>Campaign</em></h2>
+  <p class="contact-body reveal">
+    Whether you're a luxury brand, creative agency, hotel group, or private collector — Studio Barco is ready to bring your vision to life. Based in Zürich, working worldwide.
+  </p>
+  <div class="contact-links reveal">
+    <a href="tel:+41783035848" class="contact-link">
+      <div class="contact-link-icon">☎</div>
+      <div class="contact-link-label">Phone</div>
+      <div class="contact-link-value">+41 78 303 58 48</div>
+    </a>
+    <a href="https://wa.me/41783035848" class="contact-link">
+      <div class="contact-link-icon">💬</div>
+      <div class="contact-link-label">WhatsApp</div>
+      <div class="contact-link-value">Message Us</div>
+    </a>
+    <a href="https://www.instagram.com/studio.barco/" class="contact-link">
+      <div class="contact-link-icon">📷</div>
+      <div class="contact-link-label">Instagram</div>
+      <div class="contact-link-value">@studio.barco</div>
+    </a>
+    <a href="#" class="contact-link">
+      <div class="contact-link-icon">📍</div>
+      <div class="contact-link-label">Studio</div>
+      <div class="contact-link-value">Zypressenstrasse 60, 8004 Zürich</div>
+    </a>
+  </div>
+  <a href="https://wa.me/41783035848" class="contact-cta reveal">Book a Consultation →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">Studio Barco</a>
+      <p>High-end fashion, editorial, and commercial photography studio. Based in Zürich, working worldwide for luxury brands and institutions.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <ul class="footer-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#prints">Fine Art</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="#">Fashion Photography</a></li>
+        <li><a href="#">Commercial Campaigns</a></li>
+        <li><a href="#">Fine Art Prints</a></li>
+        <li><a href="#">Automotive</a></li>
+        <li><a href="#">Architecture</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="https://www.studiobarco.ch/terms">Terms</a></li>
+        <li><a href="https://www.studiobarco.ch/policy">Privacy Policy</a></li>
+        <li><a href="https://www.studiobarco.ch/cookies">Cookie Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Studio Barco · Zypressenstrasse 60, 8004 Zürich · +41 78 303 58 48</div>
+    <div class="social-links">
+      <a href="https://wa.me/41783035848" class="social-link" title="WhatsApp">💬</a>
+      <a href="https://www.instagram.com/studio.barco/" class="social-link" title="Instagram">📷</a>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt=""/>
+</div>
+
+<script>
+  // ── LOADER ──
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('gone');
+    }, 2000);
+  });
+
+  // ── CURSOR ──
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+  });
+  (function animRing() {
+    rx += (mx - rx) * .12;
+    ry += (my - ry) * .12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a, button, .service-card, .portfolio-item, .dot, .t-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px'; cursor.style.height = '20px';
+      cursor.style.background = 'var(--gold-light)';
+      ring.style.width = '60px'; ring.style.height = '60px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '10px'; cursor.style.height = '10px';
+      cursor.style.background = 'var(--gold)';
+      ring.style.width = '40px'; ring.style.height = '40px';
+    });
+  });
+
+  // ── NAV SCROLL ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── HERO SLIDESHOW ──
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('.dot');
+  let current  = 0;
+  function goSlide(n) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    slides[current].style.animation = 'none';
+    void slides[current].offsetWidth;
+    slides[current].style.animation = 'slowZoom 10s ease forwards';
+  }
+  setInterval(() => goSlide(current + 1), 5000);
+  dots.forEach(d => d.addEventListener('click', () => goSlide(+d.dataset.index)));
+
+  // ── REVEAL ON SCROLL ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: .15 });
+  revealEls.forEach(el => io.observe(el));
+
+  // ── TESTIMONIALS SLIDER ──
+  const track  = document.getElementById('testimonialTrack');
+  const cards  = track.querySelectorAll('.testimonial-card');
+  let tIdx = 0;
+  function setTestimonial(n) {
+    tIdx = (n + cards.length) % cards.length;
+    const w = cards[0].offsetWidth + 48; // gap
+    track.style.transform = `translateX(-${tIdx * w}px)`;
+  }
+  document.getElementById('tNext').addEventListener('click', () => setTestimonial(tIdx + 1));
+  document.getElementById('tPrev').addEventListener('click', () => setTestimonial(tIdx - 1));
+  setInterval(() => setTestimonial(tIdx + 1), 6000);
+
+  // ── LIGHTBOX ──
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeLightbox();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // ── PORTFOLIO DRAG SCROLL ──
+  const pt = document.getElementById('portfolioTrack');
+  let isDown = false, startX, scrollL;
+  pt.addEventListener('mousedown', e => {
+    isDown = true; startX = e.pageX - pt.offsetLeft; scrollL = pt.scrollLeft;
+  });
+  pt.addEventListener('mouseleave', () => isDown = false);
+  pt.addEventListener('mouseup', () => isDown = false);
+  pt.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - pt.offsetLeft;
+    pt.scrollLeft = scrollL - (x - startX);
+  });
+</script>
+</body>
+</html>
